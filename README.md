@@ -8,4 +8,13 @@ A repository to test artifacts auto build/upload on conda and pipy on tagging th
 Deployment is executed with Travis. See [.travis.yml](.travis.yml)
 
 
+## Installation
 
+From `test.pypi`
+```bash
+pip install --index-url https://test.pypi.org/simple/ check-auto-deploy
+```
+and from conda
+```bash
+conda install -c vfdev-5 check-auto-deploy
+```
