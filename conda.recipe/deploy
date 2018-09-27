@@ -11,7 +11,7 @@ if  [[ -z "${TRAVIS_TAG}" ]]; then
 fi
 
 
-if  [[ "${$TRAVIS_PYTHON_VERSION}" != "3.5" ]]; then
+if  [[ "${TRAVIS_PYTHON_VERSION}" != "3.5" ]]; then
     echo
     echo "SKIPPING DEPLOY STAGE SCRIPT --- This is a python 3.5"
     echo
