@@ -1,6 +1,18 @@
 
+from enum import Enum
+
 # external dependency: numpy
 import numpy as np
+
+
+class Events(Enum):
+    EPOCH_STARTED = "epoch_started"
+    EPOCH_COMPLETED = "epoch_completed"
+    STARTED = "started"
+    COMPLETED = "completed"
+    ITERATION_STARTED = "iteration_started"
+    ITERATION_COMPLETED = "iteration_completed"
+    EXCEPTION_RAISED = "exception_raised"
 
 
 class Bar(object):

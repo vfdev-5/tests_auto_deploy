@@ -22,7 +22,7 @@ readme = read('README.md')
 
 VERSION = find_version('check_auto_deploy', '__init__.py')
 
-requirements = ['numpy', ]
+requirements = ['enum34;python_version<"3.4"', 'numpy']
 
 setup(
     # Metadata
