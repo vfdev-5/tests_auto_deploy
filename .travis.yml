@@ -1,35 +1,28 @@
 language: python
+
 python:
   - "2.7"
   - "3.5"
 
-sudo: false
-
-# Cache miniconda installation
-cache:
-  directories:
-    - .miniconda
-
-
 stages:
   - Lint check
-  - Setup
   - test
-#  - deploy
 
-
-before_install:
+before_install: &before_install
+  - sudo apt-get update
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -u -p .miniconda
   - export PATH=".miniconda/bin:$PATH"
   - hash -r
-
-install:
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
   # Useful for debugging any issues with conda
-  - ls -all .miniconda
-  - ls -all .miniconda/bin
   - conda info -a
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION numpy
   - source activate test-environment
   - python setup.py install
+
+install:
   - pip install --upgrade pytest codecov pytest-cov
 
 script:
@@ -42,10 +35,17 @@ after_success:
   # be published.
   - codecov || echo "codecov upload failed"
 
+  # Conda deploy if on tag
+  # ANACONDA_USER and $ANACONDA_TOKEN should be provided by Travis
+  # How to generate ANACONDA_TOKEN: https://docs.anaconda.com/anaconda-cloud/user-guide/tasks/work-with-accounts#creating-access-tokens
+  - conda.recipe/deploy
+
 
 # PyPI Deployment: https://docs.travis-ci.com/user/deployment/pypi/
 deploy:
+
   provider: pypi
+
   user: $PYPI_USER
   # If password contains non alphanumeric characters
   # https://github.com/travis-ci/dpl/issues/377
@@ -59,9 +59,12 @@ deploy:
   server: https://test.pypi.org/legacy/
 
   skip_cleanup: true
+
   distributions: "sdist bdist_wheel"
+
   on:
     tags: true
+
     python: "3.5"
 
 
@@ -73,31 +76,3 @@ jobs:
       install: pip install flake8
       script: flake8
       after_success: # Nothing to do
-
-    - stage: Setup
-      install:
-      - sudo apt-get update
-      - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-      - bash miniconda.sh -b -u -p .miniconda
-      - export PATH=".miniconda/bin:$PATH"
-      - hash -r
-      - conda config --set always_yes yes --set changeps1 no
-      - conda update -q conda
-      # "script" should launch something otherwise build fails
-      script:
-      - conda info -a
-      - ls -all .miniconda
-      - ls -all .miniconda/bin
-
-      after_success: # Nothing to do
-
-
-
-#    - stage: deploy
-#      python: "3.5"
-#      install:
-#        # Minimal install : ignite and dependencies just to build the docs
-#        - pip install -r docs/requirements.txt
-#        - pip install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp35-cp35m-linux_x86_64.whl
-#        # `pip install .` vs `python setup.py install` : 1st works better to produce _module/ignite with source links
-#        - pip install .

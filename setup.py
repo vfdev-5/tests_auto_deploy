@@ -20,7 +20,7 @@ def find_version(*file_paths):
 
 readme = read('README.md')
 
-VERSION = find_version('tests_auto_deploy', '__init__.py')
+VERSION = find_version('check_auto_deploy', '__init__.py')
 
 requirements = ['numpy', ]
 

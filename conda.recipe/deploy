@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e # exit on error
+set -x # echo commands
+
+if  [[ -z "${TRAVIS_TAG}" ]]; then
+    echo
+    echo "SKIPPING DEPLOY STAGE SCRIPT --- This is a NOT build for a release tag"
+    echo
+    exit 0
+fi
+
+
+if  [[ "${$TRAVIS_PYTHON_VERSION}" != "3.5" ]]; then
+    echo
+    echo "SKIPPING DEPLOY STAGE SCRIPT --- This is a python 3.5"
+    echo
+    exit 0
+fi
+
+# https://conda.io/docs/user-guide/tasks/build-packages/install-conda-build.html
+conda install conda-build
+
+conda config --set anaconda_upload yes
+
+# We build a generic noarch python package:
+conda build -c $ANACONDA_USER --user $ANACONDA_USER --token $ANACONDA_TOKEN --no-test conda.recipe
