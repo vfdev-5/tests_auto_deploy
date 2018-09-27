@@ -4,7 +4,7 @@ set -e # exit on error
 set -x # echo commands
 
 # https://conda.io/docs/user-guide/tasks/build-packages/install-conda-build.html
-conda install -y conda-build conda-verify
+conda install -y conda-build conda-verify anaconda-client
 
 conda config --set anaconda_upload yes
 
