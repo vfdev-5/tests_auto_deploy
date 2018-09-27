@@ -19,9 +19,9 @@ if  [[ "${TRAVIS_PYTHON_VERSION}" != "3.5" ]]; then
 fi
 
 # https://conda.io/docs/user-guide/tasks/build-packages/install-conda-build.html
-conda install conda-build
+conda install -y conda-build conda-verify
 
 conda config --set anaconda_upload yes
 
 # We build a generic noarch python package:
-conda build -c $ANACONDA_USER --user $ANACONDA_USER --token $ANACONDA_TOKEN --no-test conda.recipe
+conda build -c $ANACONDA_USER --user $ANACONDA_USER --token $ANACONDA_TOKEN --quiet --no-test conda.recipe

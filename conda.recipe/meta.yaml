@@ -1,7 +1,7 @@
 {% set data = load_setup_py_data() %}
 
 package:
-  name: tests_auto_deploy
+  name: check_auto_deploy
   version: {{ data['version'] }}
 
 source:
@@ -25,8 +25,8 @@ requirements:
 
 test:
   imports:
-    - tests_auto_deploy
-    - tests_auto_deploy.*
+    - check_auto_deploy
+    - check_auto_deploy.*
 
 about:
   home: {{ data['url'] }}
