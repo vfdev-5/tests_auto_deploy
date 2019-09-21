@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/vfdev-5/tests_auto_deploy.svg?branch=master)](https://travis-ci.org/vfdev-5/tests_auto_deploy)
 
+https://vfdev-5.github.io/tests_auto_deploy/
+
 # Tests auto deploy
 
 
